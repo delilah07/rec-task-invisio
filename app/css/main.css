@@ -34,7 +34,8 @@ th {
 }
 
 .main-table th span,
-.main-table tr {
+.main-table tr,
+.modal-table tr {
   cursor: pointer;
   position: relative;
 }
@@ -70,5 +71,9 @@ tr td:first-child {
   opacity: 0;
   visibility: hidden;
   position: absolute;
+}
+.main-table td:last-child,
+.main-table th:last-child {
+  width: 100px;
 }
 

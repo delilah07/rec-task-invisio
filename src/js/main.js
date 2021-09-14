@@ -33,7 +33,7 @@ jQuery(document).ready(function ($) {
   tbodyTableCars.html(trTableCars);
 
   // cars img
-  $("tbody tr:first-child").addClass("table-light");
+  $(".main-table tbody tr:first-child").addClass("table-light");
   let idCars;
   let imgCars = "";
   function changeImg() {
@@ -49,7 +49,7 @@ jQuery(document).ready(function ($) {
   }
   $(".img-fluid").attr("src", changeImg());
 
-  $("tbody tr").on("click", function () {
+  $(".main-table tbody tr").on("click", function () {
     $("tbody tr").removeClass("table-light");
     $(this).addClass("table-light");
     $(".img-fluid").attr("src", changeImg());
@@ -65,7 +65,7 @@ jQuery(document).ready(function ($) {
     $.each(cars, function (index, value) {
       if (mainTableID.indexOf(value["id"]) == -1) {
         modTrTableCars +=
-          "<tr> <td>" +
+          "<tr data-bs-dismiss='modal' aria-label='Close'> <td>" +
           value["id"] +
           "</td><td>" +
           value["maker"] +
@@ -83,25 +83,24 @@ jQuery(document).ready(function ($) {
   });
 
   // add car from modal window
-  $(".modal-table tbody tr td").on("click", function () {
-    $(this).parents("tr").addClass("black");
-    // let idCars = $(this).find("td:first-child").html();
-    // console.log(idCars);
-    // for (let i = 0; i < cars.length; i++) {
-    //   if (cars[i].id === idCars) {
-    //     trTableCars +=
-    //       "<tr> <td>" +
-    //       cars[i]["id"] +
-    //       "</td><td>" +
-    //       cars[i]["maker"] +
-    //       "</td><td>" +
-    //       cars[i]["model"] +
-    //       "</td><td>" +
-    //       cars[i]["year"] +
-    //       "</td><td><button type='button' class='btn btn-delete btn-danger'>Usuń</button></td></tr>";
-    //   }
-    // }
-    // tbodyTableCars.append(trTableCars);
+  $(".modal-table").on("click", "tr", function (event) {
+    let idCars = $(this).find("td:first-child").html();
+
+    $.each(cars, function (index, value) {
+      if (idCars === value["id"]) {
+        trTableCars =
+          "<tr> <td>" +
+          value["id"] +
+          "</td><td>" +
+          value["maker"] +
+          "</td><td>" +
+          value["model"] +
+          "</td><td>" +
+          value["year"] +
+          "</td><td><button type='button' class='btn btn-delete btn-danger'>Usuń</button></td></tr>";
+      }
+    });
+    tbodyTableCars.append(trTableCars);
   });
 
   // add row
@@ -139,7 +138,6 @@ jQuery(document).ready(function ($) {
       .appendTo(tbodyTableCars);
 
     let sortOrder = $("#model_order").val();
-    console.log($("#model_order").val());
     if (sortOrder == "asc") {
       document.getElementById("model_order").value = "desc";
     }
@@ -167,7 +165,6 @@ jQuery(document).ready(function ($) {
       .appendTo(tbodyTableCars);
 
     let sortOrder = $("#year_order").val();
-    console.log($("#year_order").val());
     if (sortOrder == "asc") {
       document.getElementById("year_order").value = "desc";
     }
@@ -184,23 +181,30 @@ jQuery(document).ready(function ($) {
 
   $(document).mouseup(function (e) {
     const div = $("#filterMakerBtn");
-    if (!div.is(e.target) && div.has(e.target).length === 0) {
+    if (
+      !div.is(e.target) &&
+      div.has(e.target).length === 0 &&
+      $("#filterMakerBtn input").val().length < 1
+    ) {
       div.find("span").show();
       div.find("input").hide();
     }
   });
 
   $("#filterMakerBtn input").on("keyup", function () {
-    let value = $(this).val().toLowerCase();
+    let value = String($(this).val()).toLowerCase();
     $(".table tbody tr").filter(function () {
       $(this).toggle(
-        $(this).find("td:first-child").text().toLowerCase().indexOf(value) > -1
+        $(this).find("td:nth-child(2)").text().toLowerCase().indexOf(value) > -1
       );
     });
+    $("tbody tr").removeClass("table-light");
+    $("tbody tr:visible:first").addClass("table-light");
+    $(".img-fluid").attr("src", changeImg());
   });
 
   // delete row
-  $(".btn-delete").on("click", function () {
+  $(".main-table").on("click", ".btn-delete", function (event) {
     $(this).parents("tr").remove();
     $("tbody tr:first-child").addClass("table-light");
     $(".img-fluid").attr("src", changeImg());
