@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>rec-task Invisio</title>
+  <script defer="defer" src="./js/main.js"></script><link href="./css/main.css" rel="stylesheet"></head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-6">
+            <img class="img-fluid main-banner" src="./img/choose-Car..jpg" alt="car">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <table class="main-table table table-dark">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col" id="filterMakerBtn">
+                    <span>Marka pojazdu</span><input type="text">
+                  </th>
+                  <th scope="col" id="sortModelBtn">
+                    <span>Model pojazdu</span>
+                  </th>
+                  <th scope="col" id="sortYearBtn">
+                    <span>Rok produkcji</span>
+                  </th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <button class="btn btn-add btn-outline-light" data-bs-toggle="modal" data-bs-target="#addCar">
+              Wybierz inny samochód
+            </button>
+            <input type="hidden" id="model_order" value="asc">
+            <input type="hidden" id="year_order" value="asc">
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Modal -->
+    <div class="modal fade" id="addCar" tabindex="-1" aria-labelledby="addCarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addCarLabel">Wybierz z listy</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table class="modal-table table table-dark">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">
+                    <span>Marka pojazdu</span>
+                  </th>
+                  <th scope="col">
+                    <span>Model pojazdu</span>
+                  </th>
+                  <th scope="col">
+                    <span>Rok produkcji</span>
+                  </th>
+                  <th scope="col">
+                    <span>Zdjęcie</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <button class="btn btn-add-new btn-outline-dark" data-bs-dismiss="modal" aria-label="Close">
+              Dodaj samochód
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
