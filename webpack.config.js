@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
@@ -17,6 +18,7 @@ module.exports = {
   output: {
     filename: `./js/${filename("js")}`,
     path: path.resolve(__dirname, "app"),
+    publicPath: "",
   },
   devServer: {
     historyApiFallback: true,
@@ -44,6 +46,14 @@ module.exports = {
       "window.jQuery": "jquery",
       Popper: ["popper.js", "default"],
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src/img"),
+          to: path.resolve(__dirname, `app/img/${filename("[ext]")}`),
+        },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -60,6 +70,13 @@ module.exports = {
           },
           "css-loader",
         ],
+      },
+      {
+        test: /\.(?:|gif|png|jpg|jpeg|svg)$/,
+        type: "asset/resource",
+        generator: {
+          filename: `./img/${filename("[ext]")}`,
+        },
       },
     ],
   },
